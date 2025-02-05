@@ -30,7 +30,7 @@ public class ApiDbContext : DbContext
             .Property(p => p.Description)
             .HasColumnName("description")
             .HasMaxLength(255)
-            .IsRequired();
+            .IsRequired(false);
         mB.Entity<Product>()
             .Property(p => p.Price)
             .HasColumnName("price")
