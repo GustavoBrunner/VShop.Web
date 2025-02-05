@@ -41,6 +41,11 @@ public class ApiDbContext : DbContext
             .HasOne(p => p.Category)
             .WithMany(p => p.Products);
 
+        mB.Entity<Product>()
+            .Property(p => p.CategoryId)
+            .HasColumnName("fk_category_id")
+            .HasMaxLength(100);
+
 
 
         //Categories
