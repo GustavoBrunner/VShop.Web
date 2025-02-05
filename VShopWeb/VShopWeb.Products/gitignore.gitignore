@@ -2,6 +2,13 @@
 bin/
 obj/
 out/
+*.pdb
+*.exe
+*.dll
+*.cache
+*.json.lock
+*.deps.json
+*.runtimeconfig.json
 
 # Configurações do Visual Studio
 .vs/

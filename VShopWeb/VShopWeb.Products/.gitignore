@@ -1,0 +1,10 @@
+bin/
+obj/
+.vs/
+*.pdb
+*.exe
+*.dll
+*.cache
+*.deps.json
+*runtimeconfig.json
+Micrations/
