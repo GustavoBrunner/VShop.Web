@@ -15,6 +15,11 @@ public class ApiDbContext : DbContext
     {
         //Products
         mB.Entity<Product>()
+            .HasKey(p => p.Id);
+        mB.Entity<Product>().Property(p => p.Id)
+            .HasColumnName("pk_id")
+            .HasMaxLength(100);
+        mB.Entity<Product>()
             .ToTable("product");
         mB.Entity<Product>()
             .Property(p => p.Name)
