@@ -14,6 +14,27 @@ public class ApiDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder mB)
     {
         //Products
+        mB.Entity<Product>()
+            .ToTable("product");
+        mB.Entity<Product>()
+            .Property(p => p.Name)
+            .HasColumnName("name")
+            .HasMaxLength(100)
+            .IsRequired();
+        mB.Entity<Product>()
+            .Property(p => p.Description)
+            .HasColumnName("description")
+            .HasMaxLength(255)
+            .IsRequired();
+        mB.Entity<Product>()
+            .Property(p => p.Price)
+            .HasColumnName("price")
+            .HasPrecision(10,2)
+            .IsRequired();
+
+        mB.Entity<Product>()
+            .HasOne(p => p.Category)
+            .WithMany(p => p.Products);
 
 
 
