@@ -13,5 +13,6 @@ public class Product
     public long Stock { get; set; }
 
     public Category? Category { get; set; }
+    public string CategoryId { get; set; } = string.Empty;
 
 }
