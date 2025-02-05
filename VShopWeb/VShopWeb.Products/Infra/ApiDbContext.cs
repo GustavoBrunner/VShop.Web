@@ -15,12 +15,12 @@ public class ApiDbContext : DbContext
     {
         //Products
         mB.Entity<Product>()
+            .ToTable("product");
+        mB.Entity<Product>()
             .HasKey(p => p.Id);
         mB.Entity<Product>().Property(p => p.Id)
             .HasColumnName("pk_id")
             .HasMaxLength(100);
-        mB.Entity<Product>()
-            .ToTable("product");
         mB.Entity<Product>()
             .Property(p => p.Name)
             .HasColumnName("name")
@@ -36,19 +36,33 @@ public class ApiDbContext : DbContext
             .HasColumnName("price")
             .HasPrecision(10,2)
             .IsRequired();
-
         mB.Entity<Product>()
             .HasOne(p => p.Category)
             .WithMany(p => p.Products);
-
         mB.Entity<Product>()
             .Property(p => p.CategoryId)
             .HasColumnName("fk_category_id")
             .HasMaxLength(100);
 
-
-
         //Categories
+
+        mB.Entity<Category>()
+            .ToTable("category");
+        mB.Entity<Category>()
+            .HasKey(p => p.Id);
+        mB.Entity<Category>()
+            .Property(p => p.Id)
+            .HasColumnName("pk_id")
+            .HasMaxLength(100);
+        mB.Entity<Category>()
+            .Property(p => p.Name)
+            .HasColumnName("name")
+            .HasMaxLength(100);
+        mB.Entity<Category>()
+            .Property(p => p.Description)
+            .HasColumnName("description")
+            .HasMaxLength(255);
+        
 
     }
 
