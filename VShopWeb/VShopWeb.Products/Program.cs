@@ -12,7 +12,8 @@ string connectionString = builder.Configuration.GetConnectionString(nameof(ApiDb
 
 builder.Services.AddDbContext<ApiDbContext>( options => 
     options.UseMySql(connectionString, 
-    ServerVersion.AutoDetect(connectionString)));
+        ServerVersion.AutoDetect(connectionString))
+);
 
 var app = builder.Build();
 
