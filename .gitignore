@@ -8,3 +8,6 @@
 /VShopWeb/.vs/VShopWeb/config
 /VShopWeb/.vs/VShopWeb/FileContentIndex
 *.v2
+/VShopWeb/VShopWeb.Products/VShopWeb.Products.csproj.user
+/VShopWeb/VShopWeb.Products/VShopWeb.Products.csproj
+/VShopWeb/VShopWeb.Products/gitignore.gitignore
