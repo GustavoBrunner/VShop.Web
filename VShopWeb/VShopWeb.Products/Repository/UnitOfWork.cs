@@ -5,13 +5,14 @@ namespace VShopWeb.Products.Repository;
 
 public class UnitOfWork : IUnityOfWork
 {
-    private readonly ApiDbContext apiDbContext;
-    private bool _disposed = false;
     public UnitOfWork(ICategoryRepository categoryRepository, ApiDbContext apiDbContext)
     {
         CategoryRepository = categoryRepository;
         this.apiDbContext = apiDbContext;
     }
+    
+    private readonly ApiDbContext apiDbContext;
+    private bool _disposed = false;
 
     public IProductRepository ProductRepository { get; private set ; }
     public ICategoryRepository CategoryRepository { get; private set; }
