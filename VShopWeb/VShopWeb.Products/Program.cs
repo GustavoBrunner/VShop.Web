@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 AddScopedServices(builder.Services);
 
@@ -45,4 +45,5 @@ void AddScopedServices(IServiceCollection services)
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<ICategoryRepository, CategoryRepository>();
     services.AddScoped<IProductService, ProductService>();
+    services.AddScoped<IUnitOfWork, UnitOfWork>();
 }
