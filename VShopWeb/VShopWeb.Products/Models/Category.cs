@@ -1,4 +1,6 @@
-﻿namespace VShopWeb.Products.Models;
+﻿using System.Text.Json.Serialization;
+
+namespace VShopWeb.Products.Models;
 
 public class Category
 {
@@ -6,5 +8,6 @@ public class Category
     public string Name { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
 
+    [JsonIgnore]
     public ICollection<Product>? Products { get; set; }
 }

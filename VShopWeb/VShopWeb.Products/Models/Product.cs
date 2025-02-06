@@ -2,7 +2,11 @@
 
 public class Product
 {
-    public string Id { get; set; } = string.Empty;
+    public Product()
+    {
+        Id = Guid.NewGuid().ToString();
+    }
+    public string Id { get; set; }
 
     public string Name { get; set; } = string.Empty;
 
