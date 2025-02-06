@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using VShopWeb.Products.DTOs;
+using VShopWeb.Products.Exceptions;
 using VShopWeb.Products.Models;
 using VShopWeb.Products.Repository.Contracts;
 using VShopWeb.Products.Services.Contracts;
@@ -20,13 +21,13 @@ public class ProductService : IProductService
     public async Task<ProductViewDTO> Create(ProductDTO product)
     {
         if (product == null) 
-            throw new Exception("Invalid product informed!");
+            throw new ProductEntityException("Invalid product informed!");
 
         var entity = _mapper.Map<Product>(product);
 
         await _unityOfWork.ProductRepository.Create(entity);
         if(!await _unityOfWork.Commit())
-            throw new Exception("Not possible to create entity!");
+            throw new ProductEntityException("Not possible to create entity!");
         
         return _mapper.Map<ProductViewDTO>(entity);
     }
@@ -34,7 +35,7 @@ public class ProductService : IProductService
     {
         var products = await _unityOfWork.ProductRepository.GetAllWithCategory();
         if (!products.Any())
-            throw new Exception("No product found on system!");
+            throw new ProductEntityException("No product found on system!");
 
         return _mapper.Map<List<ProductViewDTO>>(products);
     }
@@ -42,7 +43,7 @@ public class ProductService : IProductService
     {
         var products = await _unityOfWork.ProductRepository.GetAll();
         if(!products.Any())
-            throw new Exception("No products found on system!");
+            throw new ProductEntityException("No products found on system!");
 
         return _mapper.Map<List<ProductViewDTO>>(products);
     }
@@ -57,28 +58,28 @@ public class ProductService : IProductService
     public async Task<ProductViewDTO> Update(ProductDTO product)
     {
         if (product == null)
-            throw new Exception("Invalid product informed!");
+            throw new ProductEntityException("Invalid product informed!");
 
         var entity = await _unityOfWork.ProductRepository.GetById(product.Id) ?? 
-            throw new Exception("Entity not found on system!");
+            throw new ProductEntityException("Entity not found on system!");
 
         MapProductToProduct(product, entity);
         await _unityOfWork.ProductRepository.Update(entity);
 
         if (!await _unityOfWork.Commit())
-            throw new Exception("Was not possible to update entity!");
+            throw new ProductEntityException("Was not possible to update entity!");
         return _mapper.Map<ProductViewDTO>(entity);
     }
 
     public async Task<ProductViewDTO> Delete(string id)
     {
         var entity = await _unityOfWork.ProductRepository.GetById(id) ?? 
-            throw new Exception("Entity not found on system");
+            throw new ProductEntityException("Entity not found on system");
 
 
         await _unityOfWork.ProductRepository.Delete(entity);
         if(!await _unityOfWork.Commit())
-            throw new Exception($"Unable to delete {entity.Name}");
+            throw new ProductEntityException($"Unable to delete {entity.Name}");
 
         return _mapper.Map<ProductViewDTO>(entity);
     }
