@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/VShopWeb/VShopWeb.Products/obj
+/VShopWeb/VShopWeb.Products/bin/Debug/net6.0
+/VShopWeb/.vs/VShopWeb/v17
+/VShopWeb/.vs/VShopWeb/config
+/VShopWeb/.vs/VShopWeb/FileContentIndex
+*.v2
