@@ -6,7 +6,7 @@ using VShopWeb.Products.Models;
 namespace VShopWeb.Products.DTOs;
 
 public record ProductDTO(
-    string Id,
+    string? Id,
 
     [Required(ErrorMessage = "Product name is required!")]
     [MinLength(3)]
@@ -26,6 +26,6 @@ public record ProductDTO(
 
     long Stock,
 
-    Category Category
+    Category? Category
     ) {
 }

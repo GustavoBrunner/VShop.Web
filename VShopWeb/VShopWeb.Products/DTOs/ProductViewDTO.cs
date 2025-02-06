@@ -7,6 +7,6 @@ public record ProductViewDTO(
     string Description,
     decimal Price,
     long Stock,
-    Category Category
+    Category? Category
     ) {
 }
