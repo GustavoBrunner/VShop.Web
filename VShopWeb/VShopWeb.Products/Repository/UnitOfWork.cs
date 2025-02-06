@@ -3,14 +3,15 @@ using VShopWeb.Products.Repository.Contracts;
 
 namespace VShopWeb.Products.Repository;
 
-public class UnitOfWork : IUnityOfWork
+public class UnitOfWork : IUnitOfWork
 {
-    public UnitOfWork(ICategoryRepository categoryRepository, ApiDbContext apiDbContext)
+    public UnitOfWork(ICategoryRepository categoryRepository, ApiDbContext apiDbContext, IProductRepository productRepository)
     {
         CategoryRepository = categoryRepository;
+        ProductRepository = productRepository;
         this.apiDbContext = apiDbContext;
     }
-    
+
     private readonly ApiDbContext apiDbContext;
     private bool _disposed = false;
 

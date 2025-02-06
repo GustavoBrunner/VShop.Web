@@ -9,10 +9,10 @@ namespace VShopWeb.Products.Services;
 
 public class ProductService : IProductService
 {
-    private readonly IUnityOfWork _unityOfWork;
+    private readonly IUnitOfWork _unityOfWork;
     private readonly IMapper _mapper;
 
-    public ProductService(IUnityOfWork unityOfWork, IMapper mapper)
+    public ProductService(IUnitOfWork unityOfWork, IMapper mapper)
     {
         _unityOfWork = unityOfWork;
         _mapper = mapper;
