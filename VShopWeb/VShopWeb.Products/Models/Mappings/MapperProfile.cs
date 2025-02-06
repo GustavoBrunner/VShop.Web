@@ -7,7 +7,9 @@ public class MapperProfile : Profile
 {
     public MapperProfile() 
     { 
-        CreateMap<Product, ProductDTO>()
+        CreateMap<ProductDTO, Product>()
+            .ForMember(dest => dest.CategoryId, opt => opt.
+                    MapFrom(src => src.Category != null ? src.Category.Id : string.Empty))
             .ReverseMap();
         CreateMap<ProductDTO, ProductViewDTO>()
             .ConstructUsing(src => new ProductViewDTO(src.Name, 
@@ -17,10 +19,6 @@ public class MapperProfile : Profile
         CreateMap<ProductViewDTO, ProductDTO>();
         CreateMap<ProductViewDTO, Product>()
             .ReverseMap();
-        CreateMap<List<ProductDTO>, List<Product>>()
-            .ReverseMap();
-        CreateMap<List<Product>, List<ProductViewDTO>>();
-        CreateMap<Product, Product>();
     }
     
 }
