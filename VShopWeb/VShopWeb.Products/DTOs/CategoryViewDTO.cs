@@ -3,5 +3,5 @@
 public record CategoryViewDTO(
     string Name,
     string Description,
-    IEnumerable<ProductViewDTO> Products) {
+    IEnumerable<ProductViewDTO>? Products) {
 }
