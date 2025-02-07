@@ -12,7 +12,7 @@ public class ProductService : IProductService
     private readonly IUnitOfWork _unityOfWork;
     private readonly IMapper _mapper;
 
-    public ProductService(IUnitOfWork unityOfWork, IMapper mapper)
+    public ProductService(IUnitOfWork unityOfWork, IMapper mapper, ICategoryService categoryService)
     {
         _unityOfWork = unityOfWork;
         _mapper = mapper;
@@ -25,12 +25,19 @@ public class ProductService : IProductService
 
         var entity = _mapper.Map<Product>(product);
 
+        var category = await _unityOfWork.CategoryRepository.Get(entity.Category != null ?
+                    entity.Category.Id : string.Empty);
+
+        entity.Category = category;
+
         await _unityOfWork.ProductRepository.Create(entity);
         if(!await _unityOfWork.Commit())
             throw new ProductEntityException("Not possible to create entity!");
         
         return _mapper.Map<ProductViewDTO>(entity);
     }
+
+
     public async Task<IEnumerable<ProductViewDTO>> GetAllIncludeCategory()
     {
         var products = await _unityOfWork.ProductRepository.GetAllWithCategory();
@@ -39,6 +46,8 @@ public class ProductService : IProductService
 
         return _mapper.Map<List<ProductViewDTO>>(products);
     }
+
+
     public async Task<IEnumerable<ProductViewDTO>> GetAll()
     {
         var products = await _unityOfWork.ProductRepository.GetAll();
@@ -55,6 +64,8 @@ public class ProductService : IProductService
 
         return _mapper.Map<ProductViewDTO>(product);
     }
+
+
     public async Task<ProductViewDTO> Update(ProductDTO product)
     {
         if (product == null)
@@ -64,12 +75,14 @@ public class ProductService : IProductService
             throw new ProductEntityException("Entity not found on system!");
 
         MapProductToProduct(product, entity);
+
         await _unityOfWork.ProductRepository.Update(entity);
 
         if (!await _unityOfWork.Commit())
             throw new ProductEntityException("Was not possible to update entity!");
         return _mapper.Map<ProductViewDTO>(entity);
     }
+
 
     public async Task<ProductViewDTO> Delete(string id)
     {
