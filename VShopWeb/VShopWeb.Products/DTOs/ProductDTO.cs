@@ -23,8 +23,11 @@ public record ProductDTO(
     [Required(ErrorMessage = "Product stock is required!")]
     [Range(1, 9999)]
     [DefaultValue(200)]
-
     long Stock,
+
+    [Required(ErrorMessage = "The product image is required!")]
+    [MaxLength(255)]
+    string ImageUrl,
 
     Category? Category
     ) {

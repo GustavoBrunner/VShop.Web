@@ -1,4 +1,5 @@
-﻿using VShopWeb.Products.Models;
+﻿using System.Text.Json.Serialization;
+using VShopWeb.Products.Models;
 
 namespace VShopWeb.Products.DTOs;
 
@@ -7,6 +8,6 @@ public record ProductViewDTO(
     string Description,
     decimal Price,
     long Stock,
-    Category? Category
+    string ImageUrl
     ) {
 }
