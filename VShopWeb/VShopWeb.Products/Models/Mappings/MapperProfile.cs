@@ -18,10 +18,7 @@ public class MapperProfile : Profile
         CreateMap<ProductViewDTO, ProductDTO>();
         CreateMap<ProductViewDTO, Product>()
             .ReverseMap();
-        CreateMap<List<ProductDTO>, List<Product>>()
-            .ReverseMap();
-        CreateMap<List<Product>, List<ProductViewDTO>>();
-        CreateMap<Product, Product>();
+            
 
         //categories
         CreateMap<CategoryViewDTO, CategoryDTO>()
