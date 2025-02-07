@@ -15,10 +15,20 @@ public class MapperProfile : Profile
             .ConstructUsing(src => new ProductViewDTO(src.Name, 
                                             src.Description, src.Price, 
                                             src.Stock, src.Category));
-
         CreateMap<ProductViewDTO, ProductDTO>();
         CreateMap<ProductViewDTO, Product>()
             .ReverseMap();
+        CreateMap<List<ProductDTO>, List<Product>>()
+            .ReverseMap();
+        CreateMap<List<Product>, List<ProductViewDTO>>();
+        CreateMap<Product, Product>();
+
+        //categories
+        CreateMap<CategoryViewDTO, CategoryDTO>()
+            .ReverseMap();
+        CreateMap<CategoryDTO, Category>()
+            .ReverseMap();
+
     }
     
 }
