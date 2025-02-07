@@ -37,22 +37,7 @@ public class ProductController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet]
-    public async Task<ActionResult<ProductViewDTO>> GetAll()
-    {
-        try
-        {
-            var entities = await _productService.GetAll();
-            if (entities == null)
-                return NotFound("No products found on system!");
-
-            return Ok(entities);
-        }
-        catch (ProductEntityException ex)
-        {
-            return BadRequest(ex.Message);
-        }
-    }
+    
 
     [HttpGet("category")]
     public async Task<ActionResult<ProductViewDTO>> GetAllIncludeCategory()

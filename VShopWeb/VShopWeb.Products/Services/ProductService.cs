@@ -48,14 +48,6 @@ public class ProductService : IProductService
     }
 
 
-    public async Task<IEnumerable<ProductViewDTO>> GetAll()
-    {
-        var products = await _unityOfWork.ProductRepository.GetAll();
-        if(!products.Any())
-            throw new ProductEntityException("No products found on system!");
-
-        return _mapper.Map<List<ProductViewDTO>>(products);
-    }
 
     public async Task<ProductViewDTO> GetById(string id)
     {
