@@ -11,8 +11,9 @@ namespace VShopWeb.Products.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
+    private readonly ICategoryService _categoryService;
 
-    public ProductController(IProductService productService)
+    public ProductController(IProductService productService, ICategoryService categoryService)
     {
         _productService = productService;
     }
@@ -78,10 +79,13 @@ public class ProductController : ControllerBase
         {
             if (!ModelState.IsValid)
                 return BadRequest("Product with invalid information!");
+            
             var newProduct = await _productService.Create(entity);
 
             if (newProduct == null)
                 return BadRequest("Was not possible to create product!");
+
+
 
             return Created($"Product {newProduct.Name} created!", newProduct);
         }
