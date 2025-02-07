@@ -11,14 +11,15 @@ public class MapperProfile : Profile
             .ForMember(dest => dest.CategoryId, map => map.
                     MapFrom(src => src.Category != null ? src.Category.Id : string.Empty))
             .ForMember(src => src.Id, map => map.Ignore())
-            .ConstructUsing(dto => new Product(dto.Name, dto.Description, dto.Price, dto.Stock));
+            .ConstructUsing(dto => new Product(dto.Name, dto.Description, 
+                            dto.Price, dto.Stock, dto.ImageUrl));
             
 
             
         CreateMap<ProductDTO, ProductViewDTO>()
             .ConstructUsing(src => new ProductViewDTO(src.Name, 
                                             src.Description, src.Price, 
-                                            src.Stock, src.Category));
+                                            src.Stock, src.ImageUrl));
         CreateMap<ProductViewDTO, ProductDTO>();
         CreateMap<ProductViewDTO, Product>()
             .ReverseMap();
