@@ -43,9 +43,13 @@ public class ApiDbContext : DbContext
             .Property(p => p.CategoryId)
             .HasColumnName("fk_category_id")
             .HasMaxLength(100);
+        mB.Entity<Product>()
+            .Property(p => p.ImageUrl)
+            .HasMaxLength(255)
+            .HasColumnName("image_url")
+            .IsRequired();
 
         //Categories
-
         mB.Entity<Category>()
             .ToTable("category");
         mB.Entity<Category>()
