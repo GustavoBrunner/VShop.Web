@@ -2,8 +2,4 @@
 # This .gitignore file was automatically created by Microsoft(R) Visual Studio.
 ################################################################################
 
-/VShopWeb/.vs/VShopWeb/FileContentIndex
-/VShopWeb/.vs/VShopWeb/config
-/VShopWeb/.vs/VShopWeb/DesignTimeBuild
-/VShopWeb/.vs/VShopWeb/v17
 /VShopWeb/.vs/VShopWeb

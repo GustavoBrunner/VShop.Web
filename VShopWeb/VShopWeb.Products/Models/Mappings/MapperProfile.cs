@@ -6,11 +6,15 @@ namespace VShopWeb.Products.Models.Mappings;
 public class MapperProfile : Profile
 {
     public MapperProfile() 
-    { 
+    {
         CreateMap<ProductDTO, Product>()
-            .ForMember(dest => dest.CategoryId, opt => opt.
+            .ForMember(dest => dest.CategoryId, map => map.
                     MapFrom(src => src.Category != null ? src.Category.Id : string.Empty))
-            .ReverseMap();
+            .ForMember(src => src.Id, map => map.Ignore())
+            .ConstructUsing(dto => new Product(dto.Name, dto.Description, dto.Price, dto.Stock));
+            
+
+            
         CreateMap<ProductDTO, ProductViewDTO>()
             .ConstructUsing(src => new ProductViewDTO(src.Name, 
                                             src.Description, src.Price, 
@@ -18,15 +22,17 @@ public class MapperProfile : Profile
         CreateMap<ProductViewDTO, ProductDTO>();
         CreateMap<ProductViewDTO, Product>()
             .ReverseMap();
-        CreateMap<List<ProductDTO>, List<Product>>()
-            .ReverseMap();
-        CreateMap<List<Product>, List<ProductViewDTO>>();
-        CreateMap<Product, Product>();
+            
 
         //categories
         CreateMap<CategoryViewDTO, CategoryDTO>()
             .ReverseMap();
         CreateMap<CategoryDTO, Category>()
+            .ForMember(dto => dto.Id, map => map.Ignore())
+            .ConstructUsing(dto => new Category(dto.Description, dto.Name));
+        CreateMap<Category, CategoryDTO>();
+
+        CreateMap<Category, CategoryViewDTO>()
             .ReverseMap();
 
     }

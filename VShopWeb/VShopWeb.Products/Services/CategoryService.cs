@@ -9,27 +9,27 @@ namespace VShopWeb.Products.Services;
 
 public class CategoryService : ICategoryService
 {
-    private readonly IUnityOfWork _unityOfWork;
+    private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public CategoryService(IUnityOfWork unityOfWork, IMapper mapper)
+    public CategoryService(IUnitOfWork unityOfWork, IMapper mapper)
     {
-        _unityOfWork = unityOfWork;
+        _unitOfWork = unityOfWork;
         _mapper = mapper;
     }
 
     public async Task<List<CategoryViewDTO>> GetAllCategories()
     {
-        var categories = await _unityOfWork.CategoryRepository.GetAll() ?? 
+        var categories = await _unitOfWork.CategoryRepository.GetAll() ?? 
             throw new CategoryEntityException("No category found on system!");
 
         var categoriesMapped =  _mapper.Map<List<CategoryViewDTO>>(categories);
         return categoriesMapped;
     }
 
-    public async Task<List<CategoryViewDTO>> GetAllIncludeProduct(string id)
+    public async Task<List<CategoryViewDTO>> GetAllIncludeProduct()
     {
-        var categories = await _unityOfWork.CategoryRepository.GetAllWithProducts() ??
+        var categories = await _unitOfWork.CategoryRepository.GetAllWithProducts() ??
             throw new CategoryEntityException("No category found on system!");
 
         var categoriesMapped = _mapper.Map<List<CategoryViewDTO>>(categories);
@@ -42,7 +42,7 @@ public class CategoryService : ICategoryService
         if (string.IsNullOrEmpty(id))
             throw new CategoryEntityException("Invalid id informed, null or empty!");
 
-        var category = await _unityOfWork.CategoryRepository.Get(id) ??
+        var category = await _unitOfWork.CategoryRepository.Get(id) ??
             throw new CategoryEntityException("Category not found on system!");
 
         var categoryMapped = _mapper.Map<CategoryViewDTO>(category);
@@ -55,9 +55,9 @@ public class CategoryService : ICategoryService
             throw new CategoryEntityException("Invalid category data!");
 
         var category = _mapper.Map<Category>(entity);
-        await _unityOfWork.CategoryRepository.Create(category);
+        await _unitOfWork.CategoryRepository.Create(category);
 
-        if (!await _unityOfWork.Commit())
+        if (!await _unitOfWork.Commit())
             throw new CategoryEntityException("Was not possible to create category!");
 
         return _mapper.Map<CategoryViewDTO>(category);
@@ -68,11 +68,11 @@ public class CategoryService : ICategoryService
         if (!string.IsNullOrEmpty(id))
             throw new CategoryEntityException("Informed id invalid: Null or Empty!");
 
-        var category = await _unityOfWork.CategoryRepository.Get(id) ??
+        var category = await _unitOfWork.CategoryRepository.Get(id) ??
             throw new CategoryEntityException("Category not found on system!");
 
-        await _unityOfWork.CategoryRepository.Delete(id);
-        if (!await _unityOfWork.Commit())
+        await _unitOfWork.CategoryRepository.Delete(id);
+        if (!await _unitOfWork.Commit())
             throw new CategoryEntityException($"Could not remove category: {category.Name}");
 
         var categoryMapped = _mapper.Map<CategoryViewDTO>(category);
@@ -85,14 +85,14 @@ public class CategoryService : ICategoryService
         if (entity == null)
             throw new CategoryEntityException("Invalid category data!");
 
-        var category = await _unityOfWork.CategoryRepository.Get(entity.Id) ??
+        var category = await _unitOfWork.CategoryRepository.Get(entity.Id) ??
             throw new CategoryEntityException("Category not found on system!");
 
         MapCategoryToCategory(entity, category);
 
-        await _unityOfWork.CategoryRepository.Update(category);
+        await _unitOfWork.CategoryRepository.Update(category);
 
-        if (!await _unityOfWork.Commit())
+        if (!await _unitOfWork.Commit())
             throw new CategoryEntityException("Was not possible to update category!");
 
         return _mapper.Map<CategoryViewDTO>(category);

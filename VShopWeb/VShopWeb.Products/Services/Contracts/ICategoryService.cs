@@ -8,7 +8,7 @@ public interface ICategoryService
 
     Task<CategoryViewDTO> GetById(string id);
 
-    Task<List<CategoryViewDTO>> GetAllIncludeProduct(string id);
+    Task<List<CategoryViewDTO>> GetAllIncludeProduct();
 
     Task<CategoryViewDTO> Create(CategoryDTO entity);
 

@@ -17,7 +17,7 @@ public class ProductController : ControllerBase
         _productService = productService;
     }
 
-    [HttpGet("/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult<ProductViewDTO>> GetById(string id)
     {
         try
@@ -53,7 +53,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpGet("/category")]
+    [HttpGet("category")]
     public async Task<ActionResult<ProductViewDTO>> GetAllIncludeCategory()
     {
         try
@@ -91,7 +91,7 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpPut("/{id}")]
+    [HttpPut("{id}")]
     public async Task<ActionResult<ProductViewDTO>> Update(string id, [FromBody] ProductDTO entity)
     {
         try
@@ -114,7 +114,7 @@ public class ProductController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     public async Task<ActionResult<ProductViewDTO>> Delete(string id)
     {
         try

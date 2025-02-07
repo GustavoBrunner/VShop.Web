@@ -45,5 +45,6 @@ void AddScopedServices(IServiceCollection services)
     services.AddScoped<IProductRepository, ProductRepository>();
     services.AddScoped<ICategoryRepository, CategoryRepository>();
     services.AddScoped<IProductService, ProductService>();
+    services.AddScoped<ICategoryService, CategoryService>();
     services.AddScoped<IUnitOfWork, UnitOfWork>();
 }
