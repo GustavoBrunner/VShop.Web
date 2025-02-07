@@ -2,9 +2,13 @@
 
 public class Product
 {
-    public Product()
+    public Product(string name, string description, decimal price, long stock)
     {
         Id = Guid.NewGuid().ToString();
+        Name = name;
+        Description = description;
+        Price = price;
+        Stock = stock;
     }
     public string Id { get; set; }
 
