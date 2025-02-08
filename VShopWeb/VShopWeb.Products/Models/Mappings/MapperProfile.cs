@@ -7,7 +7,7 @@ public class MapperProfile : Profile
 {
     public MapperProfile() 
     {
-        CreateMap<ProductDTO, Product>()
+        CreateMap<ProductInputDTO, Product>()
             .ForMember(dest => dest.CategoryId, map => map.
                     MapFrom(src => src.Category != null ? src.Category.Id : string.Empty))
             .ForMember(src => src.Id, map => map.Ignore())
@@ -16,24 +16,24 @@ public class MapperProfile : Profile
             
 
             
-        CreateMap<ProductDTO, ProductViewDTO>()
-            .ConstructUsing(src => new ProductViewDTO(src.Id,src.Name, 
+        CreateMap<ProductInputDTO, ProductOutputDTO>()
+            .ConstructUsing(src => new ProductOutputDTO(src.Id,src.Name, 
                                             src.Description, src.Price, 
                                             src.Stock, src.ImageUrl));
-        CreateMap<ProductViewDTO, ProductDTO>();
-        CreateMap<ProductViewDTO, Product>()
+        CreateMap<ProductOutputDTO, ProductInputDTO>();
+        CreateMap<ProductOutputDTO, Product>()
             .ReverseMap();
             
 
         //categories
-        CreateMap<CategoryViewDTO, CategoryDTO>()
+        CreateMap<CategoryOutputDTO, CategoryInputDTO>()
             .ReverseMap();
-        CreateMap<CategoryDTO, Category>()
+        CreateMap<CategoryInputDTO, Category>()
             .ForMember(dto => dto.Id, map => map.Ignore())
             .ConstructUsing(dto => new Category(dto.Description, dto.Name));
-        CreateMap<Category, CategoryDTO>();
+        CreateMap<Category, CategoryInputDTO>();
 
-        CreateMap<Category, CategoryViewDTO>()
+        CreateMap<Category, CategoryOutputDTO>()
             .ReverseMap();
 
     }

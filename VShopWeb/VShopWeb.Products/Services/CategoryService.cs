@@ -18,26 +18,26 @@ public class CategoryService : ICategoryService
         _mapper = mapper;
     }
 
-    public async Task<List<CategoryViewDTO>> GetAllCategories()
+    public async Task<List<CategoryOutputDTO>> GetAllCategories()
     {
         var categories = await _unitOfWork.CategoryRepository.GetAll() ?? 
             throw new CategoryEntityException("No category found on system!");
 
-        var categoriesMapped =  _mapper.Map<List<CategoryViewDTO>>(categories);
+        var categoriesMapped =  _mapper.Map<List<CategoryOutputDTO>>(categories);
         return categoriesMapped;
     }
 
-    public async Task<List<CategoryViewDTO>> GetAllIncludeProduct()
+    public async Task<List<CategoryOutputDTO>> GetAllIncludeProduct()
     {
         var categories = await _unitOfWork.CategoryRepository.GetAllWithProducts() ??
             throw new CategoryEntityException("No category found on system!");
 
-        var categoriesMapped = _mapper.Map<List<CategoryViewDTO>>(categories);
+        var categoriesMapped = _mapper.Map<List<CategoryOutputDTO>>(categories);
 
         return categoriesMapped;
     }
 
-    public async Task<CategoryViewDTO> GetById(string id)
+    public async Task<CategoryOutputDTO> GetById(string id)
     {
         if (string.IsNullOrEmpty(id))
             throw new CategoryEntityException("Invalid id informed, null or empty!");
@@ -45,11 +45,11 @@ public class CategoryService : ICategoryService
         var category = await _unitOfWork.CategoryRepository.Get(id) ??
             throw new CategoryEntityException("Category not found on system!");
 
-        var categoryMapped = _mapper.Map<CategoryViewDTO>(category);
+        var categoryMapped = _mapper.Map<CategoryOutputDTO>(category);
         return categoryMapped;
     }
 
-    public async Task<CategoryViewDTO> Create(CategoryDTO entity)
+    public async Task<CategoryOutputDTO> Create(CategoryInputDTO entity)
     {
         if (entity == null)
             throw new CategoryEntityException("Invalid category data!");
@@ -60,10 +60,10 @@ public class CategoryService : ICategoryService
         if (!await _unitOfWork.Commit())
             throw new CategoryEntityException("Was not possible to create category!");
 
-        return _mapper.Map<CategoryViewDTO>(category);
+        return _mapper.Map<CategoryOutputDTO>(category);
     }
 
-    public async Task<CategoryViewDTO> Delete(string id)
+    public async Task<CategoryOutputDTO> Delete(string id)
     {
         if (!string.IsNullOrEmpty(id))
             throw new CategoryEntityException("Informed id invalid: Null or Empty!");
@@ -75,12 +75,12 @@ public class CategoryService : ICategoryService
         if (!await _unitOfWork.Commit())
             throw new CategoryEntityException($"Could not remove category: {category.Name}");
 
-        var categoryMapped = _mapper.Map<CategoryViewDTO>(category);
+        var categoryMapped = _mapper.Map<CategoryOutputDTO>(category);
 
         return categoryMapped;
     }
 
-    public async Task<CategoryViewDTO> Update(CategoryDTO entity)
+    public async Task<CategoryOutputDTO> Update(CategoryInputDTO entity)
     {
         if (entity == null)
             throw new CategoryEntityException("Invalid category data!");
@@ -95,9 +95,9 @@ public class CategoryService : ICategoryService
         if (!await _unitOfWork.Commit())
             throw new CategoryEntityException("Was not possible to update category!");
 
-        return _mapper.Map<CategoryViewDTO>(category);
+        return _mapper.Map<CategoryOutputDTO>(category);
     }
-    void MapCategoryToCategory(CategoryDTO from, Category to)
+    void MapCategoryToCategory(CategoryInputDTO from, Category to)
     {
         to.Id = from.Id;
         to.Name = from.Name;

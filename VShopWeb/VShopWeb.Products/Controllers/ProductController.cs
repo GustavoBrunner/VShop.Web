@@ -19,7 +19,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductViewDTO>> GetById(string id)
+    public async Task<ActionResult<ProductOutputDTO>> GetById(string id)
     {
         try
         {
@@ -40,7 +40,7 @@ public class ProductController : ControllerBase
     
 
     [HttpGet("category")]
-    public async Task<ActionResult<ProductViewDTO>> GetAllIncludeCategory()
+    public async Task<ActionResult<ProductOutputDTO>> GetAllIncludeCategory()
     {
         try
         {
@@ -58,7 +58,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ProductViewDTO>> Create([FromBody] ProductDTO entity)
+    public async Task<ActionResult<ProductOutputDTO>> Create([FromBody] ProductInputDTO entity)
     {
         try
         {
@@ -81,7 +81,7 @@ public class ProductController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<ProductViewDTO>> Update(string id, [FromBody] ProductDTO entity)
+    public async Task<ActionResult<ProductOutputDTO>> Update(string id, [FromBody] ProductInputDTO entity)
     {
         try
         {
@@ -104,7 +104,7 @@ public class ProductController : ControllerBase
         }
     }
     [HttpDelete("{id}")]
-    public async Task<ActionResult<ProductViewDTO>> Delete(string id)
+    public async Task<ActionResult<ProductOutputDTO>> Delete(string id)
     {
         try
         {
