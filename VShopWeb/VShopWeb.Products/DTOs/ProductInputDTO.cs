@@ -5,7 +5,7 @@ using VShopWeb.Products.Models;
 
 namespace VShopWeb.Products.DTOs;
 
-public record ProductDTO(
+public record ProductInputDTO(
     string? Id,
 
     [Required(ErrorMessage = "Product name is required!")]

@@ -18,7 +18,7 @@ public class CategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<CategoryViewDTO>>> GetAll()
+    public async Task<ActionResult<IEnumerable<CategoryOutputDTO>>> GetAll()
     {
         try
         {
@@ -34,7 +34,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpGet("products/")]
-    public async Task<ActionResult<IEnumerable<CategoryViewDTO>>> GetAllIncludeProduct()
+    public async Task<ActionResult<IEnumerable<CategoryOutputDTO>>> GetAllIncludeProduct()
     {
         try
         {
@@ -50,7 +50,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpGet("{id}")]
-    public async Task<ActionResult<CategoryViewDTO>> GetById(string id)
+    public async Task<ActionResult<CategoryOutputDTO>> GetById(string id)
     {
         try
         {
@@ -69,7 +69,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpPost]
-    public async Task<ActionResult<CategoryViewDTO>> Create([FromBody] CategoryDTO categoryDTO)
+    public async Task<ActionResult<CategoryOutputDTO>> Create([FromBody] CategoryInputDTO categoryDTO)
     {
         try
         {
@@ -88,7 +88,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpPut("{id}")]
-    public async Task<ActionResult<CategoryViewDTO>> Update(string id, [FromBody] CategoryDTO categoryDTO)
+    public async Task<ActionResult<CategoryOutputDTO>> Update(string id, [FromBody] CategoryInputDTO categoryDTO)
     {
         try
         {
@@ -117,7 +117,7 @@ public class CategoryController : ControllerBase
         }
     }
     [HttpDelete("{id}")]
-    public async Task<ActionResult<CategoryViewDTO>> Delete(string id)
+    public async Task<ActionResult<CategoryOutputDTO>> Delete(string id)
     {
         try
         {

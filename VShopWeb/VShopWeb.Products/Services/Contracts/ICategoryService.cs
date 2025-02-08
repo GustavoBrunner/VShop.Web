@@ -4,17 +4,17 @@ namespace VShopWeb.Products.Services.Contracts;
 
 public interface ICategoryService
 {
-    Task<List<CategoryViewDTO>> GetAllCategories();
+    Task<List<CategoryOutputDTO>> GetAllCategories();
 
-    Task<CategoryViewDTO> GetById(string id);
+    Task<CategoryOutputDTO> GetById(string id);
 
-    Task<List<CategoryViewDTO>> GetAllIncludeProduct();
+    Task<List<CategoryOutputDTO>> GetAllIncludeProduct();
 
-    Task<CategoryViewDTO> Create(CategoryDTO entity);
+    Task<CategoryOutputDTO> Create(CategoryInputDTO entity);
 
-    Task<CategoryViewDTO> Update(CategoryDTO entity);
+    Task<CategoryOutputDTO> Update(CategoryInputDTO entity);
 
-    Task<CategoryViewDTO> Delete(string id);
+    Task<CategoryOutputDTO> Delete(string id);
     
 
 }

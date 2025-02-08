@@ -3,7 +3,7 @@ using VShopWeb.Products.Models;
 
 namespace VShopWeb.Products.DTOs;
 
-public record ProductViewDTO(
+public record ProductOutputDTO(
     string Id,
     string Name,
     string Description,
