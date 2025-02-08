@@ -17,7 +17,7 @@ public class MapperProfile : Profile
 
             
         CreateMap<ProductDTO, ProductViewDTO>()
-            .ConstructUsing(src => new ProductViewDTO(src.Name, 
+            .ConstructUsing(src => new ProductViewDTO(src.Id,src.Name, 
                                             src.Description, src.Price, 
                                             src.Stock, src.ImageUrl));
         CreateMap<ProductViewDTO, ProductDTO>();
