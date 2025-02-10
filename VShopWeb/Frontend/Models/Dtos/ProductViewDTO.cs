@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
 
-namespace Frontend.Models;
+namespace Frontend.Models.Dtos;
 
 public record ProductViewDTO(
-    
+
     string Name,
-    
+
     string Description,
 
     decimal Price,
@@ -15,6 +15,5 @@ public record ProductViewDTO(
 
     string ImageUrl,
 
-    string CategoryName){
-
+    string CategoryName) {
 }
