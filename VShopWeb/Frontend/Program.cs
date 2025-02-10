@@ -1,7 +1,23 @@
+using Frontend.Config;
+using Frontend.Services;
+using Frontend.Services.Contracts;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+{
+    builder.Services.AddHttpClient(ApiNameConsts.ProductApi,c =>
+    {
+        c.BaseAddress = new Uri(builder.Configuration[$"ServiceUri:{ApiNameConsts.ProductApi}"]);
+    });
+}
+
+builder.Services.AddScoped<IProductService, ProductService>();
+
+
 
 var app = builder.Build();
 
