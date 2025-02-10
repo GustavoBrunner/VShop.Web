@@ -34,14 +34,10 @@ public class ProductRepository : IProductRepository
     public async Task<Product> GetById(string id)
     {
         return await _context.Products
+            .Include(p => p.Category)
             .FirstOrDefaultAsync(p => p.Id == id);    
     }
 
-    public async Task<IEnumerable<Product>> GetAll()
-    {
-        return await _context.Products
-            .ToListAsync();
-    }
 
     public async Task<IEnumerable<Product>> GetAllWithCategory()
     {
