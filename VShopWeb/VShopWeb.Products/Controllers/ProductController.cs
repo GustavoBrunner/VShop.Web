@@ -39,7 +39,7 @@ public class ProductController : ControllerBase
     }
     
 
-    [HttpGet("category")]
+    [HttpGet]
     public async Task<ActionResult<ProductOutputDTO>> GetAllIncludeCategory()
     {
         try
