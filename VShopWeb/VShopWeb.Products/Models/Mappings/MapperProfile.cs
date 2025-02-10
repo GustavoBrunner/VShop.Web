@@ -14,12 +14,12 @@ public class MapperProfile : Profile
             .ConstructUsing(dto => new Product(dto.Name, dto.Description, 
                             dto.Price, dto.Stock, dto.ImageUrl));
             
-
-            
         CreateMap<ProductInputDTO, ProductOutputDTO>()
             .ConstructUsing(src => new ProductOutputDTO(src.Id,src.Name, 
                                             src.Description, src.Price, 
-                                            src.Stock, src.ImageUrl));
+                                            src.Stock, src.Category != null ? src.Category.Name : string.Empty, 
+                                            src.ImageUrl));
+
         CreateMap<ProductOutputDTO, ProductInputDTO>();
         CreateMap<ProductOutputDTO, Product>()
             .ReverseMap();
