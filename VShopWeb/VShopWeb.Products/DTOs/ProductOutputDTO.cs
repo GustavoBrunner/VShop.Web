@@ -9,6 +9,7 @@ public record ProductOutputDTO(
     string Description,
     decimal Price,
     long Stock,
+    string CategoryName,
     string ImageUrl
     ) {
 }
