@@ -25,8 +25,7 @@ public class ProductService : IProductService
 
         var entity = _mapper.Map<Product>(product);
 
-        var category = await _unityOfWork.CategoryRepository.Get(entity.Category != null ?
-                    entity.Category.Id : string.Empty);
+        var category = await _unityOfWork.CategoryRepository.Get(product.CategoryId);
 
         entity.Category = category;
 
@@ -66,6 +65,9 @@ public class ProductService : IProductService
         var entity = await _unityOfWork.ProductRepository.GetById(product.Id) ?? 
             throw new ProductEntityException("Entity not found on system!");
 
+        var category = await _unityOfWork.CategoryRepository.Get(product.CategoryId);
+        entity.Category = category;
+
         MapProductToProduct(product, entity);
 
         await _unityOfWork.ProductRepository.Update(entity);
@@ -92,7 +94,6 @@ public class ProductService : IProductService
 
     private void MapProductToProduct(ProductInputDTO from, Product to)
     {
-        to.Category = from.Category;
         to.Name = from.Name;
         to.Description = from.Description;
         to.Price = from.Price;
