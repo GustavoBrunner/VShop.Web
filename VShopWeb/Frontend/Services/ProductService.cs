@@ -25,7 +25,7 @@ public class ProductService : IProductService
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
         StringContent content = new StringContent(JsonSerializer.Serialize(newProduct), 
-                Encoding.UTF8, "applicatio/json");
+                Encoding.UTF8, "application/json");
 
         using (var response = await httpClient.PostAsync(apiEndpoint, content))
         {
@@ -107,10 +107,7 @@ public class ProductService : IProductService
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
         
-        StringContent content = new StringContent(JsonSerializer.Serialize(product),
-                Encoding.UTF8, "application/json");
-
-        using (var response = await httpClient.PutAsJsonAsync(apiEndpoint + product.Id ,content))
+        using (var response = await httpClient.PutAsJsonAsync($"{apiEndpoint}{product.Id}",product))
         {
             if (response.IsSuccessStatusCode) 
             {
@@ -125,7 +122,6 @@ public class ProductService : IProductService
             }
         }
         return _productViewDTO;
-
     }
 
     public async Task<ProductViewDTO> DeleteProduct(string id)
