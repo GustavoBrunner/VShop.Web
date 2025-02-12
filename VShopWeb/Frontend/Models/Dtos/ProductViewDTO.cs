@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
-
+﻿
 namespace Frontend.Models.Dtos;
 
 public record ProductViewDTO(
+    string Id,
 
     string Name,
 
@@ -15,5 +14,6 @@ public record ProductViewDTO(
 
     string ImageUrl,
 
-    string CategoryName) {
+    string CategoryName)
+{
 }

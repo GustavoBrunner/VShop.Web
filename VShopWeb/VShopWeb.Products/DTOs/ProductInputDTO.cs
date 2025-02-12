@@ -29,6 +29,8 @@ public record ProductInputDTO(
     [MaxLength(255)]
     string ImageUrl,
 
+    string CategoryId,
+
     Category? Category
     ) {
 }
