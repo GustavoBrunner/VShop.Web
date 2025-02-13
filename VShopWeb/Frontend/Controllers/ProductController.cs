@@ -36,25 +36,15 @@ namespace Frontend.Controllers
 
             if (!string.IsNullOrEmpty(id))
             {
-                var product = await _productService.GetProductById(id);
+                var product = await _productService.GetProductDTOById(id);
 
                 if(product == null)
                     return View("Error");
 
-                ProductDTO productDTO = new() { 
-                    CategoryId = product.Id,
-                    Description = product.Description,
-                    Id = product.Id,
-                    ImageUrl = product.ImageUrl,
-                    Name = product.Name,
-                    Price = product.Price,
-                    Stock = product.Stock
-                };
-
-                return View(productDTO);
+                return View(product);
             }
             
-            return View();
+            return View(new ProductDTO());
         }
 
         [HttpPost]
