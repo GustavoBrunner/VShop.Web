@@ -38,7 +38,8 @@ public class ApiDbContext : DbContext
             .IsRequired();
         mB.Entity<Product>()
             .HasOne(p => p.Category)
-            .WithMany(p => p.Products);
+            .WithMany(p => p.Products)
+            .OnDelete(DeleteBehavior.Cascade);
         mB.Entity<Product>()
             .Property(p => p.CategoryId)
             .HasColumnName("fk_category_id")

@@ -9,6 +9,7 @@ public interface ICategoryService
     Task<CategoryOutputDTO> GetById(string id);
 
     Task<List<CategoryOutputDTO>> GetAllIncludeProduct();
+    Task<CategoryOutputDTO> GetByName(string name);
 
     Task<CategoryOutputDTO> Create(CategoryInputDTO entity);
 

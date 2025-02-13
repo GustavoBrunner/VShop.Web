@@ -1,0 +1,30 @@
+@model CategoryDTO
+@{
+
+}
+<div class="container col-sm-8 col-lg-4">
+    <h2 class="mb-4">@(Model.Id == null ? "Register new Category" : $"Updating Category {Model.Name}") </h2>
+    <hr>
+    <form asp-action="Register" asp-controller="Category">
+        <input type="hidden" asp-for="@Model.Id">
+        <div class="mb-3">
+            <label asp-for="Name" class="form-label col-sm-8 col-lg-4">Name</label>
+            <input asp-for="Name" type="text" class="form-control" placeholder="Type the category name" required>
+            <span class="text-danger" asp-validation-for="@Model.Name"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Description" class="form-label">Description</label>
+            <textarea asp-for="Description" class="form-control" rows="4" placeholder="Category description"
+                required></textarea>
+            <span class="text-danger" asp-validation-for="@Model.Description"></span>
+        </div>
+
+        <button asp-action="Register" type="submit" class="btn btn-primary">Send</button>
+        <a asp-action="Index" asp-controller="Category" class="btn btn-danger">Return</a>
+    </form>
+</div>
+
+<script>
+
+</script>

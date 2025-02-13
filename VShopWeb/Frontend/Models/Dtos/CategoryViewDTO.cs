@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
+﻿
 namespace Frontend.Models.Dtos;
 
 public record CategoryViewDTO(

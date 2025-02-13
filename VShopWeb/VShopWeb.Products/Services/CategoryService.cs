@@ -65,7 +65,7 @@ public class CategoryService : ICategoryService
 
     public async Task<CategoryOutputDTO> Delete(string id)
     {
-        if (!string.IsNullOrEmpty(id))
+        if (string.IsNullOrEmpty(id))
             throw new CategoryEntityException("Informed id invalid: Null or Empty!");
 
         var category = await _unitOfWork.CategoryRepository.Get(id) ??
@@ -97,6 +97,19 @@ public class CategoryService : ICategoryService
 
         return _mapper.Map<CategoryOutputDTO>(category);
     }
+    public async Task<CategoryOutputDTO> GetByName(string name)
+    {
+        if (string.IsNullOrEmpty(name))
+            throw new CategoryEntityException("Name can not be null or empty");
+
+        var category = await _unitOfWork.CategoryRepository.GetByName(name) ??
+            throw new CategoryEntityException("Category not found on System!");
+
+        var mappedCategory = _mapper.Map<CategoryOutputDTO>(category);
+
+        return mappedCategory;
+
+    }
     void MapCategoryToCategory(CategoryInputDTO from, Category to)
     {
         to.Id = from.Id;
@@ -105,4 +118,6 @@ public class CategoryService : ICategoryService
         var viewProducts = _mapper.Map<List<Product>>(from.Products);
         to.Products = viewProducts;
     }
+
+    
 }

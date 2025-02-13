@@ -33,7 +33,7 @@ public class CategoryController : ControllerBase
             return BadRequest(ex.Message);
         }
     }
-    [HttpGet("products/")]
+    [HttpGet("products")]
     public async Task<ActionResult<IEnumerable<CategoryOutputDTO>>> GetAllIncludeProduct()
     {
         try
@@ -80,7 +80,7 @@ public class CategoryController : ControllerBase
             if (result == null)
                 return BadRequest($"Was not possible to create category {categoryDTO.Name}");
 
-            return Ok(result);
+            return Created("https://localhost:7176/Category/", result);
         }
         catch (CategoryEntityException ex)
         {
@@ -136,6 +136,27 @@ public class CategoryController : ControllerBase
 
         }
         catch(CategoryEntityException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+    
+    [HttpGet("name")]
+    public async Task<ActionResult<CategoryOutputDTO>> GetCategoryWithProductsByName(string name)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(name))
+                return BadRequest("Name can not be null or empty");
+
+            var category = await _categoryService.GetByName(name);
+
+            if (category == null)
+                return NotFound("Category not found on system!");
+
+            return Ok(category);
+        }
+        catch (CategoryEntityException ex)
         {
             return BadRequest(ex.Message);
         }

@@ -10,4 +10,5 @@ public interface IProductService
     Task<ProductViewDTO> CreateNewProduct(ProductDTO newProduct);
     Task<ProductViewDTO> UpdateProduct(ProductDTO product);
     Task<ProductViewDTO> DeleteProduct(string id);
+    Task<ProductDTO> GetProductDTOById(string id);
 }
