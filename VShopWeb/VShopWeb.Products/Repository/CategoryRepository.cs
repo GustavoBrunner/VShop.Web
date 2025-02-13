@@ -49,5 +49,11 @@ public class CategoryRepository : ICategoryRepository
             .ToListAsync();
     }
 
-    
+    public async Task<Category> GetByName(string name)
+    {
+        return await _context.Categories
+            .Include(c => c.Products)
+            .Where(c => c.Name == name)
+            .FirstOrDefaultAsync();
+    }
 }

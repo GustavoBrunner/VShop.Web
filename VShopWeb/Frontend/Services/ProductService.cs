@@ -12,6 +12,7 @@ public class ProductService : IProductService
     private readonly IHttpClientFactory _httpClientFactory;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
     private ProductViewDTO _productViewDTO;
+    private ProductDTO _productDTO;
     private IEnumerable<ProductViewDTO> _products;
 
     public ProductService(IHttpClientFactory httpClientFactory)
@@ -143,5 +144,25 @@ public class ProductService : IProductService
             
         }
         return _productViewDTO;
+    }
+
+    public async Task<ProductDTO> GetProductDTOById(string id)
+    {
+        var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
+
+        using (var response = await httpClient.GetAsync(apiEndpoint + id))
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var responseApi = await response.Content.ReadAsStreamAsync();
+
+                _productDTO = await JsonSerializer
+                    .DeserializeAsync<ProductDTO>(responseApi, _jsonSerializerOptions);
+
+            }
+            else
+                return null;
+        }
+        return _productDTO;
     }
 }

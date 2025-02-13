@@ -1,0 +1,13 @@
+@model CategoryViewDTO
+
+<div class="container col-sm-8 col-lg-4">
+    <form method="post" asp-action="DeleteCategory" asp-controller="Category">
+        <input type="hidden" asp-for="@Model.Id">
+        <h1 class="text text-primary">Want to delete category: @Model.Name ?</h1>
+        <h4 class="text text-primary">This operation can not be undone!</h4>
+        <hr>
+
+        <button type="submit" class="btn btn-primary">Confirm</button>
+        <a asp-action="Index" asp-controller="Product" class="btn btn-danger">Return</a>
+    </form>
+</div>

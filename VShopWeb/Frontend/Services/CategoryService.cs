@@ -8,10 +8,11 @@ namespace Frontend.Services;
 
 public class CategoryService : ICategoryService
 {
-    private const string apiEndpoint = "api/Category/";
+    private const string apiEndpoint = "/api/Category/";
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly IHttpClientFactory _httpClientFactory;
     private CategoryViewDTO _categoryViewDTO;
+    private CategoryDTO _categoryDTO;
     private IEnumerable<CategoryViewDTO> _categories;
     private IEnumerable<CategoryNoProductsViewDTO> _categoriesNoProducts;
 
@@ -43,11 +44,11 @@ public class CategoryService : ICategoryService
     
         return _categoryViewDTO;
     }
-    public async Task<IEnumerable<CategoryNoProductsViewDTO>> GetAllCategories()
+    public async Task<IEnumerable<CategoryNoProductsViewDTO>> GetAllCategoriesNoProducts()
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync(apiEndpoint))
+        using (var response = await httpClient.GetAsync($"{apiEndpoint}"))
         {
             if (response.IsSuccessStatusCode)
             {
@@ -61,11 +62,30 @@ public class CategoryService : ICategoryService
         }
         return _categoriesNoProducts;
     }
-    public async Task<IEnumerable<CategoryViewDTO>> GetCategoryWithProducts(string categoryName)
+    public async Task<CategoryViewDTO> GetCategoryWithProducts(string categoryName)
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}{categoryName}")) 
+        using (var response = await httpClient.GetAsync($"{apiEndpoint}name?name={categoryName}")) 
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var responseApi = await response.Content.ReadAsStreamAsync();
+
+                _categoryViewDTO = await JsonSerializer
+                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
+            }
+            else
+                return null;
+        }
+
+        return _categoryViewDTO;
+    }
+    public async Task<IEnumerable<CategoryViewDTO>> GetAllCategoryWithProducts()
+    {
+        var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
+
+        using (var response = await httpClient.GetAsync($"{apiEndpoint}products"))
         {
             if (response.IsSuccessStatusCode)
             {
@@ -131,11 +151,49 @@ public class CategoryService : ICategoryService
                 var responseApi = await response.Content.ReadAsStreamAsync();
 
                 _categoryViewDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions)
+                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
             }
             else
                 return null;
         }
         return _categoryViewDTO;
+    }
+
+    public async Task<CategoryDTO> GetCategoryDTOById(string? id)
+    {
+        var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
+
+        using (var response = await httpClient.GetAsync($"{apiEndpoint}{id}"))
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var responseApi = await response.Content.ReadAsStreamAsync();
+
+                _categoryDTO = await JsonSerializer
+                    .DeserializeAsync<CategoryDTO>(responseApi, _serializerOptions);
+            }
+            else
+                return null;
+        }
+        return _categoryDTO;
+    }
+
+    public async Task<IEnumerable<CategoryViewDTO>> GetAllCategories()
+    {
+        var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
+
+        using (var response = await httpClient.GetAsync($"{apiEndpoint}"))
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var responseApi = await response.Content.ReadAsStreamAsync();
+
+                _categories = await JsonSerializer
+                    .DeserializeAsync<IEnumerable<CategoryViewDTO>>(responseApi, _serializerOptions);
+            }
+            else
+                return null;
+        }
+        return _categories;
     }
 }

@@ -1,0 +1,57 @@
+@model IEnumerable<CategoryViewDTO>
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="pull-left">
+                <a asp-action="Register" class="btn btn-primary">
+                    <span title="Create Product" class="fas fa-plus">
+                        Create Category
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+@if (Model.Any())
+{
+    <div class="panel panel-default">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Products)</th>
+                    <th>@Html.DisplayNameFor(model => model.Description)</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (CategoryViewDTO category in Model)
+                {
+                    <tr>
+                        <th>@category.Name</th>
+                        <td>@category.Products?.Count()</td>
+                        <td>@category.Description</td>
+                        <td>
+                            <a asp-action="Products" asp-controller="Category" asp-route-categoryName="@category.Name"
+                                title="See Products" class="btn btn-success">
+                                <span class="fas fa-database"></span>
+                            </a>
+                            <a asp-action="Register" asp-controller="Category" asp-route-id="@category.Id" title="Edit Category"
+                                class="btn btn-warning">
+                                <span class="fas fa-edit"> </span>
+                            </a>
+                            <a asp-action="Delete" asp-controller="Category" asp-route-id="@category.Id" title="Delete Category"
+                                class="btn btn-danger">
+                                <span class="fas fa-trash-alt"></span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h1>No category found to show!</h1>
+}

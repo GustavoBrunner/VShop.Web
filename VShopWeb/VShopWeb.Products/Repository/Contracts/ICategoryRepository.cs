@@ -9,5 +9,6 @@ public interface ICategoryRepository
     Task Delete(string id);
     Task<Category> Get(string id);
     Task<IEnumerable<Category>> GetAll();
+    Task<Category> GetByName(string name);
     Task<IEnumerable<Category>> GetAllWithProducts();
 }

@@ -72,7 +72,7 @@ public class ProductController : ControllerBase
 
 
 
-            return Created($"Product {newProduct.Name} created!", newProduct);
+            return Created("https://localhost:7176/Product", newProduct);
         }
         catch (ProductEntityException ex) 
         {
