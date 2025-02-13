@@ -1,4 +1,5 @@
 ﻿using Frontend.Config;
+using Frontend.Exceptions;
 using Frontend.Models.Dtos;
 using Frontend.Services.Contracts;
 using System.Text;
@@ -11,10 +12,6 @@ public class CategoryService : ICategoryService
     private const string apiEndpoint = "/api/Category/";
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly IHttpClientFactory _httpClientFactory;
-    private CategoryViewDTO _categoryViewDTO;
-    private CategoryDTO _categoryDTO;
-    private IEnumerable<CategoryViewDTO> _categories;
-    private IEnumerable<CategoryNoProductsViewDTO> _categoriesNoProducts;
 
     public CategoryService(IHttpClientFactory httpClientFactory)
     {
@@ -29,96 +26,47 @@ public class CategoryService : ICategoryService
         StringContent content = new(JsonSerializer
             .Serialize(newCategory), Encoding.UTF8, "application/json");
 
-        using (var response = await httpClient.PostAsync(apiEndpoint, content))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.PostAsync(apiEndpoint, content);
 
-                _categoryViewDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-    
-        return _categoryViewDTO;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<CategoryViewDTO>(response, _serializerOptions);
     }
     public async Task<IEnumerable<CategoryNoProductsViewDTO>> GetAllCategoriesNoProducts()
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.GetAsync($"{apiEndpoint}");
 
-                _categoriesNoProducts = await JsonSerializer
-                    .DeserializeAsync<IEnumerable<CategoryNoProductsViewDTO>>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-        return _categoriesNoProducts;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<IEnumerable<CategoryNoProductsViewDTO>>(response, _serializerOptions);
     }
     public async Task<CategoryViewDTO> GetCategoryWithProducts(string categoryName)
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}name?name={categoryName}")) 
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.GetAsync($"{apiEndpoint}name?name={categoryName}");
 
-                _categoryViewDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-
-        return _categoryViewDTO;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<CategoryViewDTO>(response, _serializerOptions);
     }
     public async Task<IEnumerable<CategoryViewDTO>> GetAllCategoryWithProducts()
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}products"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.GetAsync($"{apiEndpoint}products");
 
-                _categories = await JsonSerializer
-                    .DeserializeAsync<IEnumerable<CategoryViewDTO>>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-
-        return _categories;
-
+        return await ServiceExceptionHandler
+            .ExceptionHandler<IEnumerable<CategoryViewDTO>>(response, _serializerOptions);
     }
 
     public async Task<CategoryViewDTO> GetCategoryById(string id)
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}{id}"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.GetAsync($"{apiEndpoint}{id}");
 
-                _categoryViewDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-        return _categoryViewDTO;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<CategoryViewDTO>(response, _serializerOptions);
     }
 
     
@@ -126,74 +74,40 @@ public class CategoryService : ICategoryService
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using(var response = await httpClient.PutAsJsonAsync($"{apiEndpoint}{category.Id}", category))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.PutAsJsonAsync($"{apiEndpoint}{category.Id}", category);
 
-                _categoryViewDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-        return _categoryViewDTO;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<CategoryViewDTO>(response, _serializerOptions);
     }
     public async Task<CategoryViewDTO> DeleteCategory(string id)
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using(var response = await httpClient.DeleteAsync($"{apiEndpoint}{id}"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.DeleteAsync($"{apiEndpoint}{id}");
 
-                _categoryViewDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryViewDTO>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-        return _categoryViewDTO;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<CategoryViewDTO>(response, _serializerOptions);
     }
 
     public async Task<CategoryDTO> GetCategoryDTOById(string? id)
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}{id}"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.GetAsync($"{apiEndpoint}{id}");
 
-                _categoryDTO = await JsonSerializer
-                    .DeserializeAsync<CategoryDTO>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-        return _categoryDTO;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<CategoryDTO>(response, _serializerOptions);
     }
 
     public async Task<IEnumerable<CategoryViewDTO>> GetAllCategories()
     {
         var httpClient = _httpClientFactory.CreateClient(ApiNameConsts.ProductApi);
 
-        using (var response = await httpClient.GetAsync($"{apiEndpoint}"))
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var responseApi = await response.Content.ReadAsStreamAsync();
+        using var response = await httpClient.GetAsync($"{apiEndpoint}");
 
-                _categories = await JsonSerializer
-                    .DeserializeAsync<IEnumerable<CategoryViewDTO>>(responseApi, _serializerOptions);
-            }
-            else
-                return null;
-        }
-        return _categories;
+        return await ServiceExceptionHandler
+            .ExceptionHandler<IEnumerable<CategoryViewDTO>>(response, _serializerOptions);
     }
+
+    
 }
