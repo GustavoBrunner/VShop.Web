@@ -8,6 +8,8 @@ public class ApplicationUser : IdentityUser
     public string FirstName { get; set; } = String.Empty;
     public string LastName { get; set; } = String.Empty;
 
+
+
     [NotMapped]
     public string FullName { get => $"{FirstName} {LastName}"; }
 }
