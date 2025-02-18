@@ -14,16 +14,19 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: "zulu" 
+          distribution: "zulu"
+
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
+
       - name: Cache SonarQube Cloud packages
         uses: actions/cache@v4
         with:
           path: ~\sonar\cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
       - name: Cache SonarQube Cloud scanner
         id: cache-sonar-scanner
         uses: actions/cache@v4
@@ -31,34 +34,32 @@ jobs:
           path: .\.sonar\scanner
           key: ${{ runner.os }}-sonar-scanner
           restore-keys: ${{ runner.os }}-sonar-scanner
+
       - name: Install SonarQube Cloud scanner
         if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
         shell: powershell
         run: |
           New-Item -Path .\.sonar\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-      - name: Analyze VShopWeb.Products
+
+      - name: Start SonarCloud Analysis
+        shell: powershell
+        env:
+          SONAR_HOST_URL: "https://sonarcloud.io"
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_PROJECT_KEY: ${{ secrets.SONAR_PROJECT_KEY }}
+          SONAR_ORGANIZATION: ${{ secrets.SONAR_ORGANIZATION }}
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GustavoBrunner_VShopWeb" /o:"org-brunner-devs-xg754res4781" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectBaseDir="./VShopWeb"
+
+      - name: Build Solution
+        shell: powershell
+        run: dotnet build ./VShopWeb/VShopWeb.sln
+
+      - name: Complete SonarCloud Analysis
         shell: powershell
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GustavoBrunner_VShopWeb_Products" /o:"org-brunner-devs-xg754res4781" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectBaseDir="./VShopWeb/VShopWeb.Products"
-          dotnet build ./VShopWeb/VShopWeb.Products/VShopWeb.Products.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
-      - name: Analyze IdentityService
-        shell: powershell
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GustavoBrunner_IdentityService" /o:"org-brunner-devs-xg754res4781" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectBaseDir="./VShopWeb/IdentityService"
-          dotnet build ./VShopWeb/IdentityService/IdentityService.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
-      - name: Analyze Frontend
-        shell: powershell
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"GustavoBrunner_Frontend" /o:"org-brunner-devs-xg754res4781" /d:sonar.token="$env:SONAR_TOKEN" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectBaseDir="./VShopWeb/Frontend"
-          dotnet build ./VShopWeb/Frontend/Frontend.sln
-          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
+        run: .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="$env:SONAR_TOKEN"
+
 
