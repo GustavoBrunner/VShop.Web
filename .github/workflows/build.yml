@@ -49,10 +49,10 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin ^
-            /k:"GustavoBrunner_VShopWeb" ^
-            /o:"org-brunner-devs-xg754res4781" ^
-            /d:sonar.token="$env:SONAR_TOKEN" ^
+          .\.sonar\scanner\dotnet-sonarscanner begin `
+            /k:"GustavoBrunner_VShopWeb" `
+            /o:"org-brunner-devs-xg754res4781" `
+            /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io"
             # Removemos /d:sonar.projectBaseDir para evitar problemas de path
 
