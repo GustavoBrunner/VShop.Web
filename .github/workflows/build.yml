@@ -50,7 +50,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin `
-            /k:"GustavoBrunner_VShopWeb" `
+            /k:"GustavoBrunner_VShop.Web" `
             /o:"org-brunner-devs-xg754res4781" `
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
