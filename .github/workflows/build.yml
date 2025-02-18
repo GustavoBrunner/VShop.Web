@@ -53,7 +53,7 @@ jobs:
             /k:"GustavoBrunner_VShopWeb" `
             /o:"org-brunner-devs-xg754res4781" `
             /d:sonar.token="$env:SONAR_TOKEN" `
-            /d:sonar.host.url="https://sonarcloud.io"
+            /d:sonar.host.url="https://sonarcloud.io" -Dsonar.branch.name=development
             # Removemos /d:sonar.projectBaseDir para evitar problemas de path
 
       - name: Build solution
