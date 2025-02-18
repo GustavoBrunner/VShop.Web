@@ -55,8 +55,6 @@ jobs:
             /d:sonar.token="$env:SONAR_TOKEN" `
             /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.branch.name="development"
-            # Removemos /d:sonar.projectBaseDir para evitar problemas de path
-
       - name: Build solution
         shell: powershell
         run: dotnet build .\VShopWeb\VShopWeb.sln
